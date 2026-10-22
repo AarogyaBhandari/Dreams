@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore disaster risk reduction and community resilience projects from DREAMS Foundation.">
+    <title>Our Projects | DREAMS Foundation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="pictures/thumbnail_Dreams.png">
+    <style>
+        body.projects-page { min-height: 100vh; background: #f7f9fb; color: #1d2a36; }
+        .projects-page main { width: min(1120px, 92%); margin: 0 auto; padding: 42px 0 72px; }
+        .projects-page main > section { max-width: none; margin: 0; padding: 0; text-align: left; }
+        .projects-hero { display: block; position: relative; overflow: hidden; margin-bottom: 30px; padding: clamp(32px, 6vw, 64px); border-radius: 20px; background: radial-gradient(circle at 88% 15%, rgba(243,189,97,.24), transparent 18rem), linear-gradient(120deg, #102d40, #087e83); color: #fff; text-align: left; }
+        .projects-eyebrow { color: #f3bd61; font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        .projects-hero h1 { margin: 10px 0; font-size: clamp(2.2rem, 5vw, 3.5rem); letter-spacing: -.04em; line-height: 1.1; }
+        .projects-hero p { max-width: 700px; margin: 0; color: #e1edf1; font-size: 1.06rem; line-height: 1.7; }
+        .projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+        .project-card { overflow: hidden; border: 1px solid #e1e8ec; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(19,52,71,.07); transition: transform .2s ease, box-shadow .2s ease; }
+        .project-card:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(19,52,71,.12); }
+        .project-open { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+        .project-open:focus-visible { outline: 3px solid #087e83; outline-offset: -3px; }
+        .project-cover { position: relative; height: clamp(210px, 26vw, 300px); overflow: hidden; background: #e8eef1; }
+        .project-cover img { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .25s ease; }
+        .project-open:hover .project-cover img { transform: scale(1.025); }
+        .project-image-count { position: absolute; right: 14px; bottom: 14px; padding: 6px 10px; border-radius: 20px; background: rgba(16,45,64,.82); color: #fff; font-size: .8rem; }
+        .project-copy { padding: 22px 24px 24px; }
+        .project-label { display: inline-block; margin-bottom: 9px; color: #087e83; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        .project-card h2 { margin: 0 0 9px; color: #173b50; font-size: 1.3rem; line-height: 1.35; }
+        .project-card p { margin: 0; color: #5a6c77; line-height: 1.65; }
+        .project-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 24px 20px; }
+        .project-read-more { color: #087e83; font-size: .92rem; font-weight: 700; }
+        .project-admin-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+        .project-admin-actions button, .admin-toggle, .project-form button, .dialog-close, .gallery-control { border: 0; border-radius: 8px; font: inherit; font-weight: 700; cursor: pointer; }
+        .project-admin-actions button { padding: 8px 12px; background: #eaf1f4; color: #173b50; }
+        .project-admin-actions .delete-project { background: #fbeaea; color: #a12626; }
+        .project-admin-actions button:hover { filter: brightness(.96); }
+        .empty-projects { padding: 32px; border: 1px dashed #bdcbd2; border-radius: 14px; color: #60737d; text-align: center; }
+        .admin-area { margin-top: 42px; padding-top: 24px; border-top: 1px solid #d7e0e5; }
+        .admin-toggle { padding: 12px 16px; background: #173b50; color: #fff; }
+        .project-form-panel { margin-top: 16px; padding: clamp(20px, 4vw, 30px); border: 1px solid #dfe7eb; border-radius: 14px; background: #fff; }
+        .project-form-panel[hidden], .admin-area[hidden], .empty-projects[hidden] { display: none; }
+        .project-form-panel h2 { margin: 0; color: #173b50; }
+        .project-form-panel > p { margin: 8px 0 0; color: #5a6c77; }
+        .project-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+        .project-form label { display: grid; gap: 6px; color: #344054; font-size: .92rem; font-weight: 700; }
+        .project-form input, .project-form textarea { width: 100%; padding: 11px 12px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #222; font: inherit; }
+        .project-form textarea { min-height: 150px; resize: vertical; }
+        .project-form .field-wide, .project-form-actions, .project-status { grid-column: 1 / -1; }
+        .project-form-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .project-form button { padding: 11px 15px; background: #087e83; color: #fff; }
+        .project-form button.secondary { background: #eaf1f4; color: #173b50; }
+        .project-status { margin: 0; color: #176b37; }
+        .project-status[data-error="true"] { color: #a12626; }
+        .project-dialog { width: min(1120px, calc(100% - 32px)); max-width: none; max-height: min(850px, calc(100% - 32px)); padding: 0; overflow: auto; border: 0; border-radius: 18px; background: #fff; color: #1d2a36; box-shadow: 0 28px 90px rgba(0,0,0,.34); }
+        .project-dialog::backdrop { background: rgba(8,22,31,.82); backdrop-filter: blur(3px); }
+        .dialog-close { position: sticky; z-index: 2; top: 12px; float: right; display: grid; width: 42px; height: 42px; place-items: center; margin: 12px 12px -54px 0; background: #fff; color: #173b50; font-size: 1.45rem; box-shadow: 0 2px 12px rgba(0,0,0,.18); }
+        .project-dialog-layout { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr); min-height: 550px; }
+        .project-gallery { position: relative; display: flex; min-height: 420px; align-items: center; justify-content: center; overflow: hidden; background: #102d40; }
+        .project-gallery img { display: block; width: 100%; height: 100%; max-height: min(78vh, 780px); object-fit: contain; }
+        .gallery-control { position: absolute; top: 50%; display: grid; width: 44px; height: 44px; place-items: center; transform: translateY(-50%); background: rgba(16,45,64,.8); color: #fff; font-size: 1.25rem; }
+        .gallery-control:hover, .gallery-control:focus-visible { background: #087e83; }
+        .gallery-control.previous { left: 14px; }
+        .gallery-control.next { right: 14px; }
+        .gallery-count { position: absolute; bottom: 16px; left: 50%; padding: 6px 11px; transform: translateX(-50%); border-radius: 20px; background: rgba(16,45,64,.82); color: #fff; font-size: .84rem; }
+        .project-detail-copy { align-self: center; padding: clamp(28px, 5vw, 54px); }
+        .project-detail-copy h2 { margin: 0 0 14px; color: #173b50; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; }
+        .project-detail-copy p { margin: 0; color: #526570; line-height: 1.85; white-space: pre-line; }
+        .project-detail-category { margin-bottom: 12px !important; color: #087e83 !important; font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+        body.dialog-open { overflow: hidden; }
+        @media (max-width: 760px) {
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-dialog-layout { grid-template-columns: 1fr; }
+            .project-gallery { min-height: 260px; height: min(52vh, 430px); }
+            .project-gallery img { max-height: 100%; }
+            .project-detail-copy { padding: 26px; }
+        }
+        @media (max-width: 520px) {
+            .projects-page main { padding-top: 24px; }
+            .projects-hero { border-radius: 14px; }
+            .project-copy { padding: 20px 20px 16px; }
+            .project-card-footer { align-items: flex-start; flex-direction: column; padding: 0 20px 18px; }
+            .project-form { grid-template-columns: 1fr; }
+            .project-form .field-wide, .project-form-actions, .project-status { grid-column: 1; }
+            .project-dialog { width: calc(100% - 18px); max-height: calc(100% - 18px); border-radius: 14px; }
+            .project-gallery { min-height: 220px; height: 38vh; }
+        }
+        @media (prefers-reduced-motion: reduce) { .project-card, .project-cover img { transition: none; } }
+    </style>
+</head>
+<body class="projects-page">
+    <nav class="navbar" aria-label="Main navigation">
+        <a class="nav-brand" href="main.html" aria-label="DREAMS Foundation home"><img src="pictures/thumbnail_Dreams.png" alt="DREAMS Foundation Logo"></a>
+        <div class="nav-links">
+            <a href="main.html">Home</a>
+            <a href="aboutus.html">About</a>
+            <a href="main.html#mission">Mission &amp; Vision</a>
+            <a href="main.html#objectives">Objectives</a>
+            <a href="main.html#services">Services</a>
+            <a href="projects.html" aria-current="page">Our Projects</a>
+            <a href="publications.html">Publications</a>
+        </div>
+        <div class="nav-actions">
+            <span id="nav-user-status" class="nav-user-status" aria-live="polite"></span>
+            <a id="nav-sign-in" class="nav-sign-in" href="login.html?next=projects.html">Sign in</a>
+            <button id="nav-sign-out" class="nav-sign-out" type="button" hidden>Sign out</button>
+            <a href="contactus.html" class="contact-button">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <header class="projects-hero">
+            <span class="projects-eyebrow">From preparedness to resilience</span>
+            <h1>Our Projects</h1>
+            <p>Discover how DREAMS Foundation works with communities and local institutions to reduce disaster risk and strengthen readiness across Nepal.</p>
+        </header>
+
+        <section id="projects-grid" class="projects-grid" aria-label="DREAMS Foundation projects"></section>
+        <p id="empty-projects" class="empty-projects" hidden>No projects are available yet.</p>
+         <section id="admin-area" class="admin-area" aria-label="Project administration" hidden>
+            <button id="admin-toggle" class="admin-toggle" type="button" aria-expanded="false" aria-controls="project-form-panel">Add a project</button>
+            <div id="project-form-panel" class="project-form-panel" hidden>
+                <h2 id="project-form-heading">Add project</h2>
+                <p>Only administrator accounts can publish or manage project records. Images upload through the public unsigned Cloudinary preset.</p>
+                <form id="project-form" class="project-form">
+                    <label>Project title<input name="title" required maxlength="180"></label>
+                    <label>Project category<input name="category" required maxlength="100"></label>
+                    <label class="field-wide">Project description<textarea name="description" required maxlength="5000"></textarea></label>
+                    <label class="field-wide">Project images (up to 6, 5 MB each)<input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required></label>
+                    <div class="project-form-actions">
+                        <button id="save-project" type="submit">Save project</button>
+                        <button id="cancel-project-edit" class="secondary" type="button" hidden>Cancel edit</button>
+                    </div>
+                    <p id="project-status" class="project-status" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <dialog id="project-dialog" class="project-dialog" aria-labelledby="project-detail-title">
+        <button id="dialog-close" class="dialog-close" type="button" aria-label="Close project details">&times;</button>
+        <div class="project-dialog-layout">
+            <div class="project-gallery">
+                <img id="project-detail-image" src="" alt="">
+                <button id="gallery-previous" class="gallery-control previous" type="button" aria-label="Previous project image">&#10094;</button>
+                <button id="gallery-next" class="gallery-control next" type="button" aria-label="Next project image">&#10095;</button>
+                <span id="gallery-count" class="gallery-count" aria-live="polite"></span>
+            </div>
+            <div class="project-detail-copy">
+                <p id="project-detail-category" class="project-detail-category"></p>
+                <h2 id="project-detail-title"></h2>
+                <p id="project-detail-description"></p>
+            </div>
+        </div>
+    </dialog>
+
+    <script type="module" src="nav-auth.js"></script>
+    <script type="module" src="projects.js"></script>
+</body>
+</html>

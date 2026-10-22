@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function validProject(data) {
+      return data.keys().hasAll([
+          'title', 'category', 'description', 'imageUrls',
+          'createdBy', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'title', 'category', 'description', 'imageUrls',
+          'createdBy', 'createdAt', 'updatedAt'
+        ])
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 180
+        && data.category is string
+        && data.category.size() <= 100
+        && data.description is string
+        && data.description.size() > 0
+        && data.description.size() <= 5000
+        && data.imageUrls is list
+        && data.imageUrls.size() > 0
+        && data.imageUrls.size() <= 6
+        && data.createdBy is string
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function validPublicationFields(data) {
+      return data.keys().hasAll([
+          'title', 'authors', 'publishedAt', 'publisher', 'description',
+          'uploadedBy', 'createdAt'
+        ])
+        && data.keys().hasOnly([
+          'title', 'authors', 'publishedAt', 'publisher', 'description',
+          'publicId', 'uploadedBy', 'createdAt'
+        ])
+        && data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 180
+        && data.authors is string
+        && data.authors.size() <= 180
+        && data.publishedAt is string
+        && data.publishedAt.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && data.publisher is string
+        && data.publisher.size() <= 180
+        && data.description is string
+        && data.description.size() <= 1200;
+    }
+
+    match /publications/{publicationId} {
+      allow read: if true;
+      allow create: if isAdmin()
+        && validPublicationFields(request.resource.data)
+        && request.resource.data.keys().hasAll(['publicId'])
+        && request.resource.data.keys().hasOnly([
+          'title', 'authors', 'publishedAt', 'publisher', 'description',
+          'publicId', 'uploadedBy', 'createdAt'
+        ])
+        && request.resource.data.publicId is string
+        && request.resource.data.publicId.matches('^publications/[A-Za-z0-9_-]{1,128}/[a-f0-9-]{36}[.]pdf$')
+        && request.resource.data.uploadedBy == request.auth.uid
+        && request.resource.data.createdAt is timestamp;
+      allow update: if isAdmin()
+        && validPublicationFields(request.resource.data)
+        && request.resource.data.keys().hasAny(['publicId'])
+        && request.resource.data.publicId is string
+        && request.resource.data.publicId.matches('^publications/[A-Za-z0-9_-]{1,128}/[a-f0-9-]{36}[.]pdf$')
+        && request.resource.data.uploadedBy == resource.data.uploadedBy
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create: if isAdmin()
+        && (
+          (
+            projectId == '_legacy-seed-complete'
+            && request.resource.data.keys().hasOnly(['seededAt'])
+            && request.resource.data.seededAt is timestamp
+          )
+          ||
+          (
+            projectId != '_legacy-seed-complete'
+            && validProject(request.resource.data)
+            && request.resource.data.createdBy == request.auth.uid
+          )
+        );
+      allow update: if isAdmin()
+        && projectId != '_legacy-seed-complete'
+        && validProject(request.resource.data)
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin() && projectId != '_legacy-seed-complete';
+    }
+  }
+}

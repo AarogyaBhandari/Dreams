@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | DREAMS Foundation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="pictures/thumbnail_Dreams.png">
+    <style>
+        body.auth-page { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 24px; background: #f5f8fa; color: #222; font-family: Arial, Helvetica, sans-serif; }
+        .auth-card { width: min(460px, 100%); padding: clamp(24px, 5vw, 40px); border: 1px solid #e2e8f0; border-radius: 18px; background: #fff; box-shadow: 0 12px 36px rgba(15, 23, 42, .1); }
+        .auth-brand { color: #0b5c8d; font-weight: 700; text-decoration: none; }
+        .auth-card h1 { margin: 18px 0 6px; color: #0b5c8d; }
+        .auth-card > p { color: #667085; line-height: 1.5; }
+        .auth-form { display: grid; gap: 14px; margin-top: 22px; }
+        .auth-form label { display: grid; gap: 6px; font-weight: 600; }
+        .auth-form input { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+        .auth-page button { padding: 12px 14px; border: 0; border-radius: 8px; background: #0b5c8d; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+        .auth-page button:disabled { cursor: not-allowed; opacity: .6; }
+        .auth-page button.secondary { border: 1px solid #cbd5e1; background: #fff; color: #222; }
+        .auth-actions { display: grid; gap: 10px; margin-top: 14px; }
+        .auth-links { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+        .auth-links button { padding: 0; background: transparent; color: #0b5c8d; font-weight: 600; }
+        .auth-links a { color: #0b5c8d; }
+        #auth-message { min-height: 1.5em; color: #176b37; }
+        #auth-message[data-error="true"] { color: #a12626; }
+        #signed-in-panel { margin-top: 18px; padding: 16px; border-radius: 10px; background: #eef8f1; }
+        #signed-in-panel[hidden], #display-name-field[hidden] { display: none; }
+    </style>
+</head>
+<body class="auth-page">
+    <main class="auth-card">
+        <a class="auth-brand" href="main.html">DREAMS Foundation</a>
+        <h1>Welcome</h1>
+        <p>Sign in or create an account.</p>
+        <form id="auth-form" class="auth-form">
+            <label id="display-name-field" hidden>Full name
+                <input id="display-name" type="text" autocomplete="name" maxlength="100">
+            </label>
+            <label>Email
+                <input id="email" type="email" autocomplete="email" required>
+            </label>
+            <label>Password
+                <input id="password" type="password" autocomplete="current-password" minlength="8" required>
+            </label>
+            <button id="submit-auth" type="submit">Sign in</button>
+        </form>
+        <div class="auth-actions">
+            <button id="google-sign-in" class="secondary" type="button">Continue with Google</button>
+        </div>
+        <div class="auth-links">
+            <button id="switch-mode" type="button"><u>Create an account</u></button><br>
+            <button id="reset-password" type="button"><u>Forgot password?</u></button>
+           
+        </div>
+        <p id="auth-message" role="status" aria-live="polite"></p>
+        <section id="signed-in-panel" hidden>
+            <strong>Signed in</strong>
+            <p id="signed-in-details"></p>
+            <button id="sign-out" class="secondary" type="button">Sign out</button>
+        </section>
+    </main>
+    <script type="module" src="login.js"></script>
+</body>
+</html>

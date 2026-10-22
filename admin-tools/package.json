@@ -1,0 +1,11 @@
+{
+  "name": "dreams-foundation-admin-tools",
+  "private": true,
+  "description": "Trusted Firebase Admin SDK tooling; never deploy these tools to the public website.",
+  "scripts": {
+    "set-admin": "node set-admin.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

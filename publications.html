@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Research, reports, and articles from DREAMS Foundation.">
+    <title>Publications | DREAMS Foundation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="pictures/thumbnail_Dreams.png">
+    <style>
+        body.publications-page { margin: 0; min-height: 100vh; background: #f5f8fa; color: #222; }
+        .publications-page main { width: min(1100px, 92%); margin: 0 auto; padding: 48px 0 64px; }
+        .publications-page main > section { max-width: none; margin: 0; padding: 0; text-align: left; }
+        .admin-area[hidden] { display: none; }
+        .publications-hero { display: block; margin: 0 0 28px; padding: 36px clamp(20px, 5vw, 56px); border-radius: 18px; background: linear-gradient(120deg, #af9ee8, #2aa8ab); color: #fff; text-align: left; }
+        .publications-hero h1 { margin: 0 0 8px; font-size: clamp(2rem, 5vw, 2.8rem); }
+        .publications-hero p { max-width: 680px; margin: 0; line-height: 1.6; }
+        .publication-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 24px 0 16px; }
+        .publication-toolbar label, .admin-form label { display: grid; gap: 6px; color: #344054; font-size: .92rem; font-weight: 600; }
+        .publication-toolbar select, .admin-form input, .admin-form textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 12px; background: #fff; color: #222; font: inherit; }
+        .publication-toolbar select { min-width: 150px; }
+        .publication-list { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+        .publication-item { padding: 22px 24px; border: 1px solid #e2e8f0; border-left: 5px solid #0b5c8d; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(15, 23, 42, .05); }
+        .publication-title { margin: 0; color: #0b5c8d; font-size: 1.2rem; }
+        .publication-meta { margin: 6px 0 10px; color: #667085; font-size: .92rem; }
+        .publication-description { margin: 0; line-height: 1.6; }
+        .publication-actions { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
+        .publication-actions a, .publication-actions button, .admin-toggle, .admin-form button { border: 0; border-radius: 8px; padding: 10px 14px; background: #0b5c8d; color: #fff; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+        .publication-actions .remove-publication { background: #a12626; }
+        .publication-actions .edit-publication { background: #344054; }
+        .empty-state { padding: 28px; border: 1px dashed #b8c4d1; border-radius: 12px; color: #667085; text-align: center; }
+        .admin-area { margin-top: 36px; padding-top: 24px; border-top: 1px solid #d7dee7; }
+        .admin-toggle { background: #344054; }
+        .admin-panel { margin-top: 16px; padding: 24px; border: 1px solid #d7dee7; border-radius: 12px; background: #fff; }
+        .admin-panel[hidden] { display: none; }
+        .admin-panel h2 { margin-top: 0; color: #0b5c8d; }
+        .admin-notice { padding: 12px 14px; border-radius: 8px; background: #fff7e6; color: #684b00; font-size: .9rem; line-height: 1.5; }
+        .admin-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+        .admin-form .field-wide, .admin-form button, .form-status { grid-column: 1 / -1; }
+        .admin-form textarea { min-height: 100px; resize: vertical; }
+        .admin-form button { justify-self: start; }
+        .form-status { margin: 0; color: #176b37; }
+        @media (max-width: 640px) {
+            .publications-page main { padding-top: 24px; }
+            .publication-toolbar { align-items: stretch; flex-direction: column; }
+            .publication-item { padding: 18px; }
+            .admin-form { grid-template-columns: 1fr; }
+            .admin-form .field-wide, .admin-form button, .form-status { grid-column: 1; }
+        }
+    </style>
+</head>
+<body class="publications-page">
+    <nav class="navbar">
+        <a class="nav-brand" href="main.html" aria-label="DREAMS Foundation home"><img src="pictures/thumbnail_Dreams.png" alt="DREAMS Foundation Logo"></a>
+        <div class="nav-links">
+            <a href="main.html">Home</a>
+            <a href="main.html#mission">Mission &amp; Vision</a>
+            <a href="main.html#objectives">Objectives</a>
+            <a href="main.html#services">Services</a>
+            <a href="projects.html">Our Projects</a>
+            <a href="publications.html" aria-current="page">Publications</a>
+        </div>
+        <div class="nav-actions">
+            <span id="nav-user-status" class="nav-user-status" aria-live="polite"></span>
+            <a id="nav-sign-in" class="nav-sign-in" href="login.html?next=publications.html">Sign in</a>
+            <button id="nav-sign-out" class="nav-sign-out" type="button" hidden>Sign out</button>
+            <a href="contactus.html" class="contact-button">Contact</a>
+        </div>
+    </nav>
+    <main>
+        <header class="publications-hero">
+            <h1>Our Publications</h1>
+            <p>Explore research, reports, and articles on disaster risk reduction and management. Publications are listed from newest to oldest.</p>
+        </header>
+
+        <section aria-labelledby="publication-heading">
+            <div class="publication-toolbar">
+                <h2 id="publication-heading">Published work</h2>
+                <label for="year-filter">Filter by year
+                    <select id="year-filter" aria-label="Filter publications by year"><option value="all">All years</option></select>
+                </label>
+            </div>
+            <ul id="publication-list" class="publication-list" aria-live="polite"></ul>
+            <p id="empty-state" class="empty-state" hidden>No publications are available for this year.</p>
+        </section>
+
+        <section class="admin-area" aria-labelledby="admin-heading" hidden>
+            <button id="admin-toggle" class="admin-toggle" type="button" aria-expanded="false" aria-controls="admin-panel">Admin: Upload a publication</button>
+            <div id="admin-panel" class="admin-panel" hidden>
+                <h2 id="admin-heading">Add publication</h2>
+                <p class="admin-notice">Only administrators can publish, edit, or remove records. The unsigned Cloudinary preset is public; restrict it to PDF files and a 15 MB maximum in Cloudinary settings.</p>
+                <form id="publication-form" class="admin-form">
+                    <label>Publication title<input name="title" required maxlength="180"></label>
+                    <label>Authors<input name="authors" required maxlength="180"></label>
+                    <label>Publication date<input name="publishedAt" type="date" required></label>
+                    <label>Journal or publisher<input name="publisher" maxlength="180"></label>
+                    <label class="field-wide">Description<textarea name="description" maxlength="1200"></textarea></label>
+                    <label class="field-wide">Publication file (PDF, up to 15 MB; optional when editing)<input name="file" type="file" accept="application/pdf,.pdf" required></label>
+                    <button type="submit">Save publication</button>
+                    <button id="cancel-edit" type="button" hidden>Cancel edit</button>
+                    <p id="form-status" class="form-status" role="status"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="nav-auth.js"></script>
+    <script type="module" src="publications.js"></script>
+</body>
+</html>

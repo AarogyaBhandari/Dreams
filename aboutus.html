@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about DREAMS Foundation's work in disaster risk reduction, preparedness, response, and recovery in Nepal.">
+    <title>About Us | DREAMS Foundation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="pictures/thumbnail_Dreams.png">
+    <style>
+        body.about-page { min-height: 100vh; background: #f7f9fb; color: #1d2a36; }
+        .about-page main { padding-bottom: 72px; }
+        .about-page .about-hero { display: block; margin: 0; padding: clamp(72px, 10vw, 120px) max(6%, calc((100% - 1120px) / 2)); background: radial-gradient(circle at 85% 35%, rgba(31, 151, 153, .28), transparent 22rem), linear-gradient(118deg, #102d40, #16475a 58%, #087e83); color: #fff; text-align: left; }
+        .about-hero .eyebrow { margin: 0 0 12px; color: #f3bd61; font-size: .8rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+        .about-hero h1 { max-width: 760px; margin: 0; font-size: clamp(2.4rem, 6vw, 4.25rem); letter-spacing: -.045em; line-height: 1.08; }
+        .about-hero > p:last-child { max-width: 680px; margin: 20px 0 0; color: #e1edf1; font-size: clamp(1rem, 1.6vw, 1.16rem); line-height: 1.8; }
+        .about-section { max-width: 1120px; margin: 0 auto; padding: clamp(48px, 7vw, 76px) 24px 0; text-align: left; }
+        .about-section h2 { margin: 0 0 12px; color: #16394d; font-size: clamp(1.7rem, 3.4vw, 2.3rem); letter-spacing: -.03em; }
+        .about-section > p { max-width: 780px; margin: 0; color: #5a6c77; line-height: 1.8; }
+        .about-intro-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; align-items: stretch; }
+        .about-card { padding: clamp(24px, 4vw, 36px); border: 1px solid #e0e9ed; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(19, 52, 71, .06); }
+        .about-card h2 { margin-bottom: 14px; }
+        .about-card p { margin: 0; color: #526570; line-height: 1.8; }
+        .about-card p + p { margin-top: 12px; }
+        .about-highlight { display: flex; flex-direction: column; justify-content: center; border-color: #d4e8e7; background: #eaf5f4; }
+        .about-highlight strong { display: block; margin-bottom: 8px; color: #087e83; font-size: 1.1rem; }
+        .about-approach { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 26px; }
+        .approach-card { padding: 24px; border: 1px solid #e0e9ed; border-radius: 14px; background: #fff; }
+        .approach-card span { display: inline-grid; width: 38px; height: 38px; place-items: center; margin-bottom: 14px; border-radius: 11px; background: #e6f3f2; color: #087e83; font-weight: 800; }
+        .approach-card h3 { margin: 0 0 8px; color: #173b50; font-size: 1.05rem; }
+        .approach-card p { margin: 0; color: #5a6c77; font-size: .95rem; line-height: 1.7; }
+        .about-cta { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 28px; padding: 28px; border-radius: 16px; background: #153b4e; color: #fff; }
+        .about-cta h2 { margin: 0 0 6px; color: #fff; font-size: 1.35rem; }
+        .about-cta p { margin: 0; color: #d7e5e9; }
+        .about-cta a { flex: 0 0 auto; padding: 12px 18px; border-radius: 9px; background: #f3bd61; color: #172b3a; font-weight: 700; text-decoration: none; }
+        .about-cta a:hover, .about-cta a:focus-visible { background: #ffd17e; }
+        @media (max-width: 720px) {
+            .about-intro-grid { grid-template-columns: 1fr; }
+            .about-approach { grid-template-columns: 1fr; }
+            .about-cta { align-items: flex-start; flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="about-page">
+    <nav class="navbar" aria-label="Main navigation">
+        <a class="nav-brand" href="main.html" aria-label="DREAMS Foundation home"><img src="pictures/thumbnail_Dreams.png" alt="DREAMS Foundation"></a>
+        <div class="nav-links">
+            <a href="main.html" aria-current="page">Home</a>
+            <a href="main.html#mission">Mission &amp; Vision</a>
+            <a href="main.html#objectives">Objectives</a>
+            <a href="main.html#services">Services</a>
+            <a href="projects.html">Our Projects</a>
+            <a href="publications.html">Publications</a>
+        </div>
+        <div class="nav-actions">
+            <a href="contactus.html" class="contact-button">Contact</a>
+        </div>
+    </nav>
+
+    <header class="about-hero">
+        <p class="eyebrow">Who we are</p>
+        <h1>Building resilience through knowledge and collaboration</h1>
+        <p>Learn about DREAMS Foundation and our commitment to disaster risk reduction and management in Nepal and across the region.</p>
+    </header>
+
+    <main>
+        <section class="about-section about-intro-grid" aria-labelledby="about-intro-heading">
+            <article class="about-card">
+                <h2 id="about-intro-heading">About DREAMS Foundation</h2>
+                <p>DREAMS Foundation works with responders, volunteers, government and non-government organizations to strengthen disaster preparedness, response, and recovery through research, consultation, training, and innovative disaster risk management approaches at national and regional levels.</p>
+                <p>Established in Nepal, DREAMS Foundation is dedicated to building resilient communities. Our team brings experience in emergency management, logistics, and capacity building.</p>
+            </article>
+            <aside class="about-card about-highlight">
+                <strong>Preparedness creates stronger communities</strong>
+                <p>We work alongside partners and communities to support practical, proactive approaches to disaster risk reduction.</p>
+            </aside>
+        </section>
+
+        <section class="about-section" aria-labelledby="history-heading">
+            <h2 id="history-heading">Our history</h2>
+            <p>Founded in 2022, DREAMS Foundation emerged from the need for specialized disaster management services in Nepal. In response to climate-related disasters and urban challenges, we focus on proactive measures and community empowerment. Since our inception, we have partnered with local governments, international organizations, and communities to implement disaster risk reduction strategies across Nepal and beyond.</p>
+        </section>
+
+        <section class="about-section" aria-labelledby="approach-heading">
+            <h2 id="approach-heading">How we work</h2>
+            <p>We combine practical expertise with strong partnerships to help organizations and communities prepare for and manage disaster risks.</p>
+            <div class="about-approach">
+                <article class="approach-card">
+                    <span aria-hidden="true">01</span>
+                    <h3>Work together</h3>
+                    <p>Partner with responders, volunteers, public institutions, and communities.</p>
+                </article>
+                <article class="approach-card">
+                    <span aria-hidden="true">02</span>
+                    <h3>Build capability</h3>
+                    <p>Share knowledge through consultation, training, and capacity building.</p>
+                </article>
+                <article class="approach-card">
+                    <span aria-hidden="true">03</span>
+                    <h3>Support resilience</h3>
+                    <p>Strengthen preparedness, response, and recovery with practical approaches.</p>
+                </article>
+            </div>
+            <div class="about-cta">
+                <div>
+                    <h2>Want to work with us?</h2>
+                    <p>Get in touch to learn more about DREAMS Foundation.</p>
+                </div>
+                <a href="contactus.html">Contact our team</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
