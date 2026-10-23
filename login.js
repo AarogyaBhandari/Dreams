@@ -49,7 +49,7 @@ function setMode(nextMode) {
 
 function safeReturnLocation() {
     const next = new URLSearchParams(location.search).get("next");
-    return next === "publications.html" ? "publications.html" : "main.html";
+    return next === "publications.html" ? "publications.html" : "index.html";
 }
 
 function readableAuthError(error) {
