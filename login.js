@@ -4,6 +4,7 @@ import {
     GoogleAuthProvider,
     linkWithCredential,
     onAuthStateChanged,
+    sendEmailVerification,
     sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signInWithPopup,
@@ -27,6 +28,7 @@ const signOutButton = document.querySelector("#sign-out");
 let mode = "signin";
 let pendingGoogleCredential = null;
 let pendingGoogleEmail = "";
+let isSigningUp = false;
 
 function showMessage(text, isError = false) {
     message.textContent = text;
@@ -47,7 +49,7 @@ function setMode(nextMode) {
 
 function safeReturnLocation() {
     const next = new URLSearchParams(location.search).get("next");
-    return next === "publications.html" ? "publications.html" : "index.html";
+    return next === "publications.html" ? "publications.html" : "main.html";
 }
 
 function readableAuthError(error) {
@@ -93,12 +95,26 @@ if (!firebaseConfigured) {
                 switchButton.disabled = false;
                 showMessage("Google sign-in is now linked to your account.");
             } else if (mode === "signup") {
-                const credential = await createUserWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
-                const displayName = nameInput.value.trim();
-                if (displayName) await updateProfile(credential.user, { displayName });
-                showMessage("Account created. You are signed in.");
+                isSigningUp = true;
+                try {
+                 const credential = await createUserWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+                 const displayName = nameInput.value.trim();
+                 if (displayName) await updateProfile(credential.user, { displayName });
+                 await sendEmailVerification(credential.user);
+                 await signOut(auth);
+                } finally {
+                    isSigningUp = false;
+                    }
+                setMode("signin");
+                showMessage("Account created.  A verification email has been sent. Please check your inbox and spam folder.");
+                return;
             } else {
-                await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+                const credential = await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+                if (!credential.user.emailVerified) {
+                 await signOut(auth);
+                 showMessage("Please verify your email before signing in.", true);
+                 return;
+                }
                 showMessage("Signed in successfully.");
             }
             location.assign(safeReturnLocation());
@@ -160,7 +176,8 @@ if (!firebaseConfigured) {
     signOutButton.addEventListener("click", () => signOut(auth));
 
     onAuthStateChanged(auth, async user => {
-        if (!user) {
+        if (isSigningUp) return;
+        if (!user || !user.emailVerified) {
             signedInPanel.hidden = true;
             return;
         }
